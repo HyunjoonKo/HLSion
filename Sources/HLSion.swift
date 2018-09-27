@@ -70,7 +70,7 @@ public class HLSion {
     
     // MARK: Intialization
     
-    internal init(asset: AVURLAsset, description: String) {
+    public init(asset: AVURLAsset, description: String) {
         name = description
         urlAsset = asset
     }
