@@ -15,7 +15,7 @@ HTTP Live Streaming (HLS) download manager to offline playback.
 Add below to your `Cartfile`.
 
 ```ogdl
-github "r-plus/HLSion" "master"
+github "HyunjoonKo/HLSion" "customized"
 ```
 
 Thus build framework.
