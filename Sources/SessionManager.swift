@@ -14,7 +14,7 @@ final internal class SessionManager: NSObject, AVAssetDownloadDelegate {
     
     static let shared = SessionManager()
     
-    internal let homeDirectoryURL = URL(fileURLWithPath: NSHomeDirectory())
+    internal var homeDirectoryURL = URL(fileURLWithPath: NSHomeDirectory())
     private var session: AVAssetDownloadURLSession!
     internal var downloadingMap = [AVAssetDownloadTask : HLSion]()
     

@@ -192,6 +192,10 @@ public class HLSion {
 //        }
 //        return self
 //    }
+    
+    public static func set(downloadPath: URL) {
+        SessionManager.shared.homeDirectoryURL = downloadPath
+    }
 }
 
 extension HLSion: Equatable {}

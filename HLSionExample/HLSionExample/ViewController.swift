@@ -18,7 +18,7 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // https://developer.apple.com/streaming/examples/
-        sources.append(HLSion(url: URL(string: "https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8")!, name: "Sample HLS"))
+        sources.append(HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS"))
     }
 
     override func didReceiveMemoryWarning() {
