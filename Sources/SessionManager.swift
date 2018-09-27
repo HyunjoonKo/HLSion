@@ -45,12 +45,26 @@ final internal class SessionManager: NSObject, AVAssetDownloadDelegate {
     func downloadStream(_ hlsion: HLSion) {
         guard assetExists(forName: hlsion.name) == false else { return }
         
-        guard let task = session.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: nil) else { return }
-        
-        task.taskDescription = hlsion.name
-        downloadingMap[task] = hlsion
-        
-        task.resume()
+        if #available(iOS 10.0, *) {
+            
+            guard let task = session.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: nil) else { return }
+            
+            task.taskDescription = hlsion.name
+            downloadingMap[task] = hlsion
+            
+            task.resume()
+            
+        } else {
+            
+            guard let localFileLocation = AssetStore.path(forName: hlsion.name) else { return }
+            let fileURL = homeDirectoryURL.appendingPathComponent(localFileLocation)
+            guard let task = session.makeAssetDownloadTask(asset:  hlsion.urlAsset, destinationURL: fileURL, options: nil) else { return }
+            
+            task.taskDescription = hlsion.name
+            downloadingMap[task] = hlsion
+            
+            task.resume()
+        }
     }
     
 //    func downloadAdditional(media: AVMutableMediaSelection, hlsion: HLSion) {
@@ -87,7 +101,7 @@ final internal class SessionManager: NSObject, AVAssetDownloadDelegate {
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         guard let task = task as? AVAssetDownloadTask , let hlsion = downloadingMap.removeValue(forKey: task) else { return }
         
-        if let error = error as? NSError {
+        if let error = error as NSError? {
             switch (error.domain, error.code) {
             case (NSURLErrorDomain, NSURLErrorCancelled):
                 // hlsion.result as success when cancelled.
