@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -151,7 +151,7 @@
 				};
 			};
 			buildConfigurationList = 0AD4BE981DD76F8C0070BA6B /* Build configuration list for PBXProject "HLSionExample" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -358,6 +358,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.r-plus.HLSionExample";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -372,6 +373,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.r-plus.HLSionExample";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
