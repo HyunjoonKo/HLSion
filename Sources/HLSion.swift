@@ -35,14 +35,14 @@ public class HLSion {
     /// Local url path that saved for offline playback. return nil if not downloaded.
     public var localUrl: URL? {
         guard let relativePath = AssetStore.path(forName: name) else { return nil }
-        return SessionManager.shared.homeDirectoryURL.appendingPathComponent(relativePath)
+        return HLSSessionManager.shared.homeDirectoryURL.appendingPathComponent(relativePath)
     }
     /// Download state.
     public var state: State {
-        if SessionManager.shared.assetExists(forName: name) {
+        if HLSSessionManager.shared.assetExists(forName: name) {
             return .downloaded
         }
-        if let _ = SessionManager.shared.downloadingMap.first(where: { $1 == self }) {
+        if let _ = HLSSessionManager.shared.downloadingMap.first(where: { $1 == self }) {
             return .downloading
         }
         return .notDownloaded
@@ -51,7 +51,7 @@ public class HLSion {
     public var offlineAssetSize: UInt64 {
         guard state == .downloaded else { return 0 }
         guard let relativePath = AssetStore.path(forName: name) else { return 0 }
-        let bundleURL = SessionManager.shared.homeDirectoryURL.appendingPathComponent(relativePath)
+        let bundleURL = HLSSessionManager.shared.homeDirectoryURL.appendingPathComponent(relativePath)
         guard let subpaths = try? FileManager.default.subpathsOfDirectory(atPath: bundleURL.path) else { return 0 }
         let size: UInt64 = subpaths.reduce(0) {
             let filePath = bundleURL.appendingPathComponent($1).path
@@ -90,7 +90,7 @@ public class HLSion {
     
     /// Restore downloading tasks. You should call this method in AppDelegate.
     public static func restoreDownloadsTasks() {
-        _ = SessionManager.shared
+        _ = HLSSessionManager.shared
     }
     
     /// Start download HLS stream data as asset. Should delete asset when you want to re-download HLS stream, simply ignore if exist same HLSion.
@@ -100,7 +100,7 @@ public class HLSion {
     @discardableResult
     public func download(progress closure: ProgressParameter? = nil) -> Self {
         progressClosure = closure
-        SessionManager.shared.downloadStream(self)
+        HLSSessionManager.shared.downloadStream(self)
         return self
     }
     
@@ -142,14 +142,14 @@ public class HLSion {
     
     /// Cancel download.
     public func cancelDownload() {
-        SessionManager.shared.cancelDownload(self)
+        HLSSessionManager.shared.cancelDownload(self)
     }
     
     /// Delete local stored HLS asset.
     ///
     /// - Throws: FileManager file delete exception.
     public func deleteAsset() throws {
-        try SessionManager.shared.deleteAsset(forName: name)
+        try HLSSessionManager.shared.deleteAsset(forName: name)
     }
     
     /// Additional downloadable media selection group and option. Return empty array if not yet download to local or completly downloaded all medias.
@@ -188,13 +188,13 @@ public class HLSion {
 //            let mediaSelection = dummyMediaSelection.mutableCopy() as! AVMutableMediaSelection
 //            mediaSelection.select(media.1, in: media.0)
 //            
-//            SessionManager.shared.downloadAdditional(media: mediaSelection, hlsion: self)
+//            HLSSessionManager.shared.downloadAdditional(media: mediaSelection, hlsion: self)
 //        }
 //        return self
 //    }
     
     public static func set(downloadPath: URL) {
-        SessionManager.shared.homeDirectoryURL = downloadPath
+        HLSSessionManager.shared.homeDirectoryURL = downloadPath
     }
 }
 

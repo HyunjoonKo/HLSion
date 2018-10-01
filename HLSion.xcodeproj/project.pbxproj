@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A67838E1DD62D03001BF3A2 /* HLSion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A67838D1DD62D03001BF3A2 /* HLSion.swift */; };
-		0A6783921DD6EB47001BF3A2 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6783911DD6EB47001BF3A2 /* SessionManager.swift */; };
+		0A6783921DD6EB47001BF3A2 /* HLSSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6783911DD6EB47001BF3A2 /* HLSSessionManager.swift */; };
 		0A6783941DD7131A001BF3A2 /* AssetStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6783931DD7131A001BF3A2 /* AssetStore.swift */; };
 		0AD4BE911DD76E8F0070BA6B /* HLSion.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AD4BE901DD76E8F0070BA6B /* HLSion.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -16,7 +16,7 @@
 /* Begin PBXFileReference section */
 		0A6783811DD62C6F001BF3A2 /* HLSion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HLSion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A67838D1DD62D03001BF3A2 /* HLSion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HLSion.swift; path = Sources/HLSion.swift; sourceTree = SOURCE_ROOT; };
-		0A6783911DD6EB47001BF3A2 /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionManager.swift; path = Sources/SessionManager.swift; sourceTree = SOURCE_ROOT; };
+		0A6783911DD6EB47001BF3A2 /* HLSSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HLSSessionManager.swift; path = Sources/HLSSessionManager.swift; sourceTree = SOURCE_ROOT; };
 		0A6783931DD7131A001BF3A2 /* AssetStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AssetStore.swift; path = Sources/AssetStore.swift; sourceTree = SOURCE_ROOT; };
 		0AD4BE901DD76E8F0070BA6B /* HLSion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HLSion.h; path = Sources/HLSion.h; sourceTree = SOURCE_ROOT; };
 		0AD4BE921DD76E970070BA6B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sources/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -55,7 +55,7 @@
 				0AD4BE921DD76E970070BA6B /* Info.plist */,
 				0AD4BE901DD76E8F0070BA6B /* HLSion.h */,
 				0A67838D1DD62D03001BF3A2 /* HLSion.swift */,
-				0A6783911DD6EB47001BF3A2 /* SessionManager.swift */,
+				0A6783911DD6EB47001BF3A2 /* HLSSessionManager.swift */,
 				0A6783931DD7131A001BF3A2 /* AssetStore.swift */,
 			);
 			name = Sources;
@@ -144,7 +144,7 @@
 			files = (
 				0A6783941DD7131A001BF3A2 /* AssetStore.swift in Sources */,
 				0A67838E1DD62D03001BF3A2 /* HLSion.swift in Sources */,
-				0A6783921DD6EB47001BF3A2 /* SessionManager.swift in Sources */,
+				0A6783921DD6EB47001BF3A2 /* HLSSessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 //
-//  SessionManager.swift
+//  HLSSessionManager.swift
 //  HLSion
 //
 //  Created by hyde on 2016/11/12.
@@ -9,10 +9,10 @@
 import Foundation
 import AVFoundation
 
-final internal class SessionManager: NSObject, AVAssetDownloadDelegate {
+final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
     // MARK: Properties
     
-    static let shared = SessionManager()
+    static let shared = HLSSessionManager()
     
     internal var homeDirectoryURL = URL(fileURLWithPath: NSHomeDirectory())
     private var session: AVAssetDownloadURLSession!
