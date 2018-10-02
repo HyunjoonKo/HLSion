@@ -61,6 +61,7 @@ public class HLSion {
         }
         return size
     }
+    public var options: [String: Any]?
     
     internal var result: Result?
     internal var progressClosure: ProgressParameter?
@@ -84,6 +85,7 @@ public class HLSion {
     public convenience init(url: URL, options: [String: Any]? = nil, name: String) {
         let urlAsset = AVURLAsset(url: url, options: options)
         self.init(asset: urlAsset, description: name)
+        self.options = options
     }
     
     // MARK: Method
@@ -100,7 +102,7 @@ public class HLSion {
     @discardableResult
     public func download(progress closure: ProgressParameter? = nil) -> Self {
         progressClosure = closure
-        HLSSessionManager.shared.downloadStream(self)
+        HLSSessionManager.shared.downloadStream(self, options: self.options)
         return self
     }
     

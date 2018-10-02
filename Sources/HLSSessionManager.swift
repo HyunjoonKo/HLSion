@@ -16,7 +16,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
     
     internal var homeDirectoryURL = URL(fileURLWithPath: NSHomeDirectory())
     private var session: AVAssetDownloadURLSession!
-    internal typealias HLSTaskData = (HLSion: HLSion, options: [String : String]?)  // HLSion, options
+    internal typealias HLSTaskData = (HLSion: HLSion, options: [String : Any]?)  // HLSion, options
     internal var downloadingMap = [AVAssetDownloadTask : HLSTaskData]()
     
     // MARK: Intialization
@@ -43,7 +43,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         }
     }
     
-    func downloadStream(_ hlsion: HLSion, options: [String: String]? = nil) {
+    func downloadStream(_ hlsion: HLSion, options: [String: Any]? = nil) {
         guard assetExists(forName: hlsion.name) == false else { return }
         
         if #available(iOS 10.0, *) {

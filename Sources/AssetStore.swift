@@ -10,7 +10,7 @@ import Foundation
 
 internal struct AssetStore {
     
-    internal typealias AssetData = (path: String, options: [String : String]?)  // path, options
+    internal typealias AssetData = (path: String, options: [String : Any]?)  // path, options
     
     // name : key, value : path
     private static var shared: [String: AssetData] = {
@@ -37,7 +37,7 @@ internal struct AssetStore {
     }
     
     @discardableResult
-    static func set(path: String, options: [String : String]? = nil ,forName: String) -> Bool {
+    static func set(path: String, options: [String : Any]? = nil ,forName: String) -> Bool {
         shared[forName] = AssetData(path: path, options: options)
         let dict = shared as NSDictionary
         return dict.write(to: storeURL, atomically: true)
