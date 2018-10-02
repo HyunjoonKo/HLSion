@@ -34,7 +34,7 @@ public class HLSion {
     public let urlAsset: AVURLAsset
     /// Local url path that saved for offline playback. return nil if not downloaded.
     public var localUrl: URL? {
-        guard let relativePath = AssetStore.path(forName: name) else { return nil }
+        guard let relativePath = AssetStore.path(forName: name)?.path else { return nil }
         return HLSSessionManager.shared.homeDirectoryURL.appendingPathComponent(relativePath)
     }
     /// Download state.
@@ -42,7 +42,7 @@ public class HLSion {
         if HLSSessionManager.shared.assetExists(forName: name) {
             return .downloaded
         }
-        if let _ = HLSSessionManager.shared.downloadingMap.first(where: { $1 == self }) {
+        if let _ = HLSSessionManager.shared.downloadingMap.first(where: { $1.HLSion == self }) {
             return .downloading
         }
         return .notDownloaded
@@ -50,7 +50,7 @@ public class HLSion {
     /// File size of downloaded HLS asset.
     public var offlineAssetSize: UInt64 {
         guard state == .downloaded else { return 0 }
-        guard let relativePath = AssetStore.path(forName: name) else { return 0 }
+        guard let relativePath = AssetStore.path(forName: name)?.path else { return 0 }
         let bundleURL = HLSSessionManager.shared.homeDirectoryURL.appendingPathComponent(relativePath)
         guard let subpaths = try? FileManager.default.subpathsOfDirectory(atPath: bundleURL.path) else { return 0 }
         let size: UInt64 = subpaths.reduce(0) {
@@ -122,7 +122,7 @@ public class HLSion {
     public func finish(relativePath closure: @escaping FinishParameter) -> Self {
         finishClosure = closure
         if let result = result, case .success = result {
-            closure(AssetStore.path(forName: name)!)
+            closure(AssetStore.path(forName: name)!.path)
         }
         return self
     }
@@ -195,6 +195,13 @@ public class HLSion {
     
     public static func set(downloadPath: URL) {
         HLSSessionManager.shared.homeDirectoryURL = downloadPath
+    }
+    
+    public static func assetExists(forName: String) -> HLSion? {
+        if let data = AssetStore.path(forName: forName), let url = URL(string: data.path) {
+            return HLSion(url: url, options: data.options, name: forName)
+        }
+        return nil
     }
 }
 

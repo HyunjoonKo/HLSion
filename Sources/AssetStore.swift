@@ -10,9 +10,12 @@ import Foundation
 
 internal struct AssetStore {
     
-    private static var shared: [String: String] = {
+    internal typealias AssetData = (path: String, options: [String : String]?)  // path, options
+    
+    // name : key, value : path
+    private static var shared: [String: AssetData] = {
         if FileManager.default.fileExists(atPath: storeURL.path) {
-            return NSDictionary(contentsOf: storeURL) as! [String : String]
+            return NSDictionary(contentsOf: storeURL) as! [String : AssetData]
         }
         return [:]
     }()
@@ -22,20 +25,20 @@ internal struct AssetStore {
         return URL(fileURLWithPath: library).appendingPathComponent("HLSion").appendingPathExtension("plist")
     }()
     
-    static func allMap() -> [String: String] {
+    static func allMap() -> [String: Any] {
         return shared
     }
     
-    static func path(forName: String) -> String? {
-        if let path = shared[forName] {
-            return path
+    static func path(forName: String) -> AssetData? {
+        if let data = shared.first(where: { $0.key == forName }) {
+            return data.value
         }
         return nil
     }
     
     @discardableResult
-    static func set(path: String, forName: String) -> Bool {
-        shared[forName] = path
+    static func set(path: String, options: [String : String]? = nil ,forName: String) -> Bool {
+        shared[forName] = AssetData(path: path, options: options)
         let dict = shared as NSDictionary
         return dict.write(to: storeURL, atomically: true)
     }
