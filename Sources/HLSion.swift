@@ -195,9 +195,10 @@ public class HLSion {
 //        return self
 //    }
     
-    public static func set(downloadPath: URL) {
-        HLSSessionManager.shared.homeDirectoryURL = downloadPath
-    }
+    // custom path is not work for AVAssetCache.
+//    public static func set(downloadPath: URL) {
+//        HLSSessionManager.shared.homeDirectoryURL = downloadPath
+//    }
     
     public static func assetExists(forName: String) -> HLSion? {
         if let data = AssetStore.path(forName: forName), let path = data.path, let url = URL(string: path) {
