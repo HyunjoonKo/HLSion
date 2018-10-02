@@ -124,7 +124,7 @@ public class HLSion {
     public func finish(relativePath closure: @escaping FinishParameter) -> Self {
         finishClosure = closure
         if let result = result, case .success = result {
-            closure(AssetStore.path(forName: name)!.path)
+            closure(AssetStore.path(forName: name)!.path!)
         }
         return self
     }
@@ -200,7 +200,7 @@ public class HLSion {
     }
     
     public static func assetExists(forName: String) -> HLSion? {
-        if let data = AssetStore.path(forName: forName), let url = URL(string: data.path) {
+        if let data = AssetStore.path(forName: forName), let path = data.path, let url = URL(string: path) {
             return HLSion(url: url, options: data.options, name: forName)
         }
         return nil

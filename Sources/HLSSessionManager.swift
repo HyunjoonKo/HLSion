@@ -128,7 +128,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         }
         switch hlsion.HLSion.result! {
         case .success:
-            hlsion.HLSion.finishClosure?(AssetStore.path(forName: hlsion.HLSion.name)!.path)
+            hlsion.HLSion.finishClosure?(AssetStore.path(forName: hlsion.HLSion.name)!.path!)
         case .failure(let err):
             hlsion.HLSion.errorClosure?(err)
         }
