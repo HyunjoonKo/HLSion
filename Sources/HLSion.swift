@@ -209,7 +209,7 @@ public class HLSion {
         return nil
     }
     
-    var downloadList: [HLSion] {
+    public static var downloadList: [HLSion] {
         var lists: [HLSion] = []
         for item in AssetStore.allMap() {
             if let path = item.value.path, let url = URL(string: path) {
