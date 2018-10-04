@@ -62,6 +62,7 @@ public class HLSion {
         return size
     }
     public var options: [String: Any]?
+    public var data: Any? // save other data objects.
     
     internal var result: Result?
     internal var progressClosure: ProgressParameter?
@@ -82,10 +83,11 @@ public class HLSion {
     ///   - url: HLS(m3u8) URL.
     ///   - options: AVURLAsset options.
     ///   - name: Identifier name.
-    public convenience init(url: URL, options: [String: Any]? = nil, name: String) {
+    public convenience init(url: URL, options: [String: Any]? = nil, name: String, data: Any? = nil) {
         let urlAsset = AVURLAsset(url: url, options: options)
         self.init(asset: urlAsset, description: name)
         self.options = options
+        self.data = data
     }
     
     // MARK: Method
@@ -102,7 +104,7 @@ public class HLSion {
     @discardableResult
     public func download(progress closure: ProgressParameter? = nil) -> Self {
         progressClosure = closure
-        HLSSessionManager.shared.downloadStream(self, options: self.options)
+        HLSSessionManager.shared.downloadStream(self)
         return self
     }
     
@@ -202,9 +204,19 @@ public class HLSion {
     
     public static func assetExists(forName: String) -> HLSion? {
         if let data = AssetStore.path(forName: forName), let path = data.path, let url = URL(string: path) {
-            return HLSion(url: url, options: data.options, name: forName)
+            return HLSion(url: url, options: data.options, name: forName, data: data.data)
         }
         return nil
+    }
+    
+    var downloadList: [HLSion] {
+        var lists: [HLSion] = []
+        for item in AssetStore.allMap() {
+            if let path = item.value.path, let url = URL(string: path) {
+                lists.append(HLSion(url: url, options: item.value.options, name: item.key, data: item.value.data))
+            }
+        }
+        return lists
     }
 }
 

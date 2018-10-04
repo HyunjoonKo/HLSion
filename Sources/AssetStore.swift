@@ -33,7 +33,7 @@ internal struct AssetStore {
         return URL(fileURLWithPath: library).appendingPathComponent("HLSion").appendingPathExtension("data")
     }()
     
-    static func allMap() -> [String: Any] {
+    static func allMap() -> [String: AssetData] {
         return shared
     }
     
@@ -45,8 +45,8 @@ internal struct AssetStore {
     }
     
     @discardableResult
-    static func set(path: String, options: [String : Any]? = nil ,forName: String) -> Bool {
-        shared[forName] = AssetData(path: path, options: options)
+    static func set(path: String, options: [String : Any]? = nil, data: Any? = nil, forName: String) -> Bool {
+        shared[forName] = AssetData(path: path, options: options, data: data)
         let data = NSKeyedArchiver.archivedData(withRootObject: shared)
         do {
             try data.write(to: storeURL, options: .atomic)

@@ -16,8 +16,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
     
     internal var homeDirectoryURL = URL(fileURLWithPath: NSHomeDirectory())
     private var session: AVAssetDownloadURLSession!
-    internal typealias HLSTaskData = (HLSion: HLSion, options: [String : Any]?)  // HLSion, options
-    internal var downloadingMap = [AVAssetDownloadTask : HLSTaskData]()
+    internal var downloadingMap = [AVAssetDownloadTask : HLSion]()
     
     // MARK: Intialization
     
@@ -38,12 +37,12 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
                 guard let assetDownloadTask = task as? AVAssetDownloadTask, let hlsionName = task.taskDescription else { break }
                 
                 let hlsion = HLSion(asset: assetDownloadTask.urlAsset, description: hlsionName)
-                self.downloadingMap[assetDownloadTask] = HLSTaskData(HLSion: hlsion, options: nil)
+                self.downloadingMap[assetDownloadTask] = hlsion
             }
         }
     }
     
-    func downloadStream(_ hlsion: HLSion, options: [String: Any]? = nil) {
+    func downloadStream(_ hlsion: HLSion, options: [String: Any]? = nil, data: Any? = nil) {
         guard assetExists(forName: hlsion.name) == false else { return }
         
         if #available(iOS 10.0, *) {
@@ -51,7 +50,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
             guard let task = session.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: nil) else { return }
             
             task.taskDescription = hlsion.name
-            downloadingMap[task] = HLSTaskData(HLSion: hlsion, options: options)
+            downloadingMap[task] = hlsion
             
             task.resume()
             
@@ -62,7 +61,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
             guard let task = session.makeAssetDownloadTask(asset:  hlsion.urlAsset, destinationURL: fileURL, options: nil) else { return }
             
             task.taskDescription = hlsion.name
-            downloadingMap[task] = HLSTaskData(HLSion: hlsion, options: options)
+            downloadingMap[task] = hlsion
             
             task.resume()
         }
@@ -81,7 +80,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
 //    }
     
     func cancelDownload(_ hlsion: HLSion) {
-        downloadingMap.first(where: { $1.HLSion == hlsion })?.key.cancel()
+        downloadingMap.first(where: { $1 == hlsion })?.key.cancel()
     }
     
     func deleteAsset(forName: String) throws {
@@ -106,38 +105,38 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
             switch (error.domain, error.code) {
             case (NSURLErrorDomain, NSURLErrorCancelled):
                 // hlsion.result as success when cancelled.
-                guard let localFileLocation = AssetStore.path(forName: hlsion.HLSion.name)?.path else { return }
+                guard let localFileLocation = AssetStore.path(forName: hlsion.name)?.path else { return }
                 
                 do {
                     let fileURL = homeDirectoryURL.appendingPathComponent(localFileLocation)
                     try FileManager.default.removeItem(at: fileURL)
                 } catch {
-                    print("An error occured trying to delete the contents on disk for \(hlsion.HLSion.name): \(error)")
+                    print("An error occured trying to delete the contents on disk for \(hlsion.name): \(error)")
                 }
                 
             case (NSURLErrorDomain, NSURLErrorUnknown):
-                hlsion.HLSion.result = .failure(error)
+                hlsion.result = .failure(error)
                 fatalError("Downloading HLS streams is not supported in the simulator.")
                 
             default:
-                hlsion.HLSion.result = .failure(error)
+                hlsion.result = .failure(error)
                 print("An unexpected error occured \(error.domain)")
             }
         } else {
-            hlsion.HLSion.result = .success
+            hlsion.result = .success
         }
-        switch hlsion.HLSion.result! {
+        switch hlsion.result! {
         case .success:
-            hlsion.HLSion.finishClosure?(AssetStore.path(forName: hlsion.HLSion.name)!.path!)
+            hlsion.finishClosure?(AssetStore.path(forName: hlsion.name)!.path!)
         case .failure(let err):
-            hlsion.HLSion.errorClosure?(err)
+            hlsion.errorClosure?(err)
         }
     }
     
     func urlSession(_ session: URLSession, assetDownloadTask: AVAssetDownloadTask, didFinishDownloadingTo location: URL) {
 
         guard let hlsion = downloadingMap[assetDownloadTask] else { return }
-        AssetStore.set(path: location.relativePath, options: hlsion.options, forName: hlsion.HLSion.name)
+        AssetStore.set(path: location.relativePath, options: hlsion.options, data: hlsion.data, forName: hlsion.name)
     }
     
     func urlSession(_ session: URLSession,
@@ -146,8 +145,8 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
                     totalTimeRangesLoaded loadedTimeRanges: [NSValue],
                     timeRangeExpectedToLoad: CMTimeRange) {
         guard let hlsion = downloadingMap[assetDownloadTask] else { return }
-        hlsion.HLSion.result = nil
-        guard let progressClosure = hlsion.HLSion.progressClosure else { return }
+        hlsion.result = nil
+        guard let progressClosure = hlsion.progressClosure else { return }
         
         let percentComplete = loadedTimeRanges.reduce(0.0) {
             let loadedTimeRange : CMTimeRange = $1.timeRangeValue
