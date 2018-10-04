@@ -42,7 +42,7 @@ public class HLSion {
         if HLSSessionManager.shared.assetExists(forName: name) {
             return .downloaded
         }
-        if let _ = HLSSessionManager.shared.downloadingMap.first(where: { $1.HLSion == self }) {
+        if let _ = HLSSessionManager.shared.downloadingMap.first(where: { $1 == self }) {
             return .downloading
         }
         return .notDownloaded
