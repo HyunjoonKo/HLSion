@@ -47,9 +47,9 @@ internal struct AssetStore {
     @discardableResult
     static func set(path: String, options: [String : Any]? = nil, data: Any? = nil, forName: String) -> Bool {
         shared[forName] = AssetData(path: path, options: options, data: data)
-        let data = NSKeyedArchiver.archivedData(withRootObject: shared)
+        let archive = NSKeyedArchiver.archivedData(withRootObject: shared)
         do {
-            try data.write(to: storeURL, options: .atomic)
+            try archive.write(to: storeURL, options: .atomic)
             return true
         } catch {
             print("An error occured trying to saving.")

@@ -16,7 +16,8 @@ final internal class AssetData: NSObject, NSCoding {
     
     public init(path: String, options: [String: Any]? = nil, data: Any? = nil) {
         self.path = path
-        self.options = options        
+        self.options = options
+        self.data = data
     }
     
     func encode(with aCoder: NSCoder) {
