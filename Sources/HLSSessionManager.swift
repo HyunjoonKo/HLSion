@@ -47,7 +47,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         
         if #available(iOS 10.0, *) {
             
-            guard let task = session.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: options ?? hlsion.options) else { return }
+            guard let task = session.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: options) else { return }
             
             task.taskDescription = hlsion.name
             downloadingMap[task] = hlsion
@@ -58,7 +58,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
             
             guard let localFileLocation = AssetStore.path(forName: hlsion.name)?.path else { return }
             let fileURL = homeDirectoryURL.appendingPathComponent(localFileLocation)
-            guard let task = session.makeAssetDownloadTask(asset:  hlsion.urlAsset, destinationURL: fileURL, options: options ?? hlsion.options) else { return }
+            guard let task = session.makeAssetDownloadTask(asset:  hlsion.urlAsset, destinationURL: fileURL, options: options) else { return }
             
             task.taskDescription = hlsion.name
             downloadingMap[task] = hlsion
