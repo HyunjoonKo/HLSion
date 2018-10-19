@@ -61,8 +61,11 @@ public class HLSion {
         }
         return size
     }
+    
+    /// AVAssetDownloadTaskMediaSelectionKey or AVAssetDownloadTaskMinimumRequiredMediaBitrateKey
     public var options: [String: Any]?
-    public var data: Any? // save other data objects.
+    /// save other data objects.
+    public var data: Any?
     
     internal var result: Result?
     internal var progressClosure: ProgressParameter?
