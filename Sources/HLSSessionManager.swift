@@ -42,12 +42,12 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         }
     }
     
-    func downloadStream(_ hlsion: HLSion) {
+    func downloadStream(_ hlsion: HLSion, options: [String: Any]? = nil) {
         guard assetExists(forName: hlsion.name) == false else { return }
         
         if #available(iOS 10.0, *) {
             
-            guard let task = session.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: hlsion.options) else { return }
+            guard let task = session.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: options ?? hlsion.options) else { return }
             
             task.taskDescription = hlsion.name
             downloadingMap[task] = hlsion
@@ -58,7 +58,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
             
             guard let localFileLocation = AssetStore.path(forName: hlsion.name)?.path else { return }
             let fileURL = homeDirectoryURL.appendingPathComponent(localFileLocation)
-            guard let task = session.makeAssetDownloadTask(asset:  hlsion.urlAsset, destinationURL: fileURL, options: hlsion.options) else { return }
+            guard let task = session.makeAssetDownloadTask(asset:  hlsion.urlAsset, destinationURL: fileURL, options: options ?? hlsion.options) else { return }
             
             task.taskDescription = hlsion.name
             downloadingMap[task] = hlsion
@@ -67,17 +67,11 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         }
     }
     
-//    func downloadAdditional(media: AVMutableMediaSelection, hlsion: HLSion) {
-//        guard assetExists(forName: hlsion.name) == true else { return }
-//        
-//        let options = [AVAssetDownloadTaskMediaSelectionKey: media]
-//        guard let task = session.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: options) else { return }
-//        
-//        task.taskDescription = hlsion.name
-//        downloadingMap[task] = hlsion
-//        
-//        task.resume()
-//    }
+    func downloadAdditional(media: AVMutableMediaSelection, hlsion: HLSion) {
+        guard assetExists(forName: hlsion.name) == true else { return }        
+        let options = [AVAssetDownloadTaskMediaSelectionKey: media]
+        self.downloadStream(hlsion, options: options)
+    }
     
     func cancelDownload(_ hlsion: HLSion) {
         downloadingMap.first(where: { $1 == hlsion })?.key.cancel()

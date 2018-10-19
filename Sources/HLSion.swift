@@ -62,7 +62,7 @@ public class HLSion {
         return size
     }
     
-    /// AVAssetDownloadTaskMediaSelectionKey or AVAssetDownloadTaskMinimumRequiredMediaBitrateKey
+    /// AVURLAsset options.
     public var options: [String: Any]?
     /// save other data objects.
     public var data: Any?
@@ -71,7 +71,7 @@ public class HLSion {
     internal var progressClosure: ProgressParameter?
     internal var finishClosure: FinishParameter?
     internal var errorClosure: ErrorParameter?
-//    internal var resolvedMediaSelection: AVMediaSelection?
+    internal var resolvedMediaSelection: AVMediaSelection?
     
     // MARK: Intialization
     
@@ -165,9 +165,9 @@ public class HLSion {
 //    public func downloadableAdditionalMedias() -> [(AVMediaSelectionGroup, AVMediaSelectionOption)] {
 //        var result = [(AVMediaSelectionGroup, AVMediaSelectionOption)]()
 //        guard let assetCache = urlAsset.assetCache else { return result }
-//        
+//
 //        let mediaCharacteristics = [AVMediaCharacteristicAudible, AVMediaCharacteristicLegible]
-//        
+//
 //        for mediaCharacteristic in mediaCharacteristics {
 //            guard let mediaSelectionGroup = urlAsset.mediaSelectionGroup(forMediaCharacteristic: mediaCharacteristic) else { continue }
 //            let savedOptions = assetCache.mediaSelectionOptions(in: mediaSelectionGroup)
@@ -175,7 +175,7 @@ public class HLSion {
 //                result.append((mediaSelectionGroup, option))
 //            }
 //        }
-//        
+//
 //        return result
 //    }
     
@@ -183,22 +183,22 @@ public class HLSion {
     ///
     /// - Parameter media: Selected pair from `downloadableAdditionalMedias`
     /// - Returns: Chainable self instance. WARN: progress and finish closures are shared.
-//    @discardableResult
-//    public func downloadAdditional(media: (AVMediaSelectionGroup, AVMediaSelectionOption)) -> Self {
-//        guard state == .downloaded else { return self }
-//        completed = false
-//        let dummy = HLSion(url: urlAsset.url, name: "jp.HLSion.dummy")
-//        dummy.download(progress: { (percent) in
-//            print(percent)
-//        }).finish { [weak dummy] _ in
-//            guard let dummyMediaSelection = dummy?.resolvedMediaSelection else { return }
-//            let mediaSelection = dummyMediaSelection.mutableCopy() as! AVMutableMediaSelection
-//            mediaSelection.select(media.1, in: media.0)
-//            
-//            HLSSessionManager.shared.downloadAdditional(media: mediaSelection, hlsion: self)
-//        }
-//        return self
-//    }
+    @discardableResult
+    public func downloadAdditional(media: (AVMediaSelectionGroup, AVMediaSelectionOption)) -> Self {
+        guard state == .downloaded else { return self }
+        //completed = false
+        let dummy = HLSion(url: urlAsset.url, name: "jp.HLSion.dummy")
+        dummy.download(progress: { (percent) in
+            print(percent)
+        }).finish { [weak dummy] _ in
+            guard let dummyMediaSelection = dummy?.resolvedMediaSelection else { return }
+            let mediaSelection = dummyMediaSelection.mutableCopy() as! AVMutableMediaSelection
+            mediaSelection.select(media.1, in: media.0)
+            
+            HLSSessionManager.shared.downloadAdditional(media: mediaSelection, hlsion: self)
+        }
+        return self
+    }
     
     // custom path is not work for AVAssetCache.
 //    public static func set(downloadPath: URL) {
