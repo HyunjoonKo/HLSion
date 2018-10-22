@@ -46,9 +46,11 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         guard assetExists(forName: hlsion.name) == false else { return }
         
         var params = hlsion.options
-        if var p = params, p.keys.count > 0, let opt = options {
-            opt.forEach({ (key, value) in p[key] = value })
-            params = p
+        if var p = params, p.keys.count > 0 {
+            if let opt = options {                
+                opt.forEach({ (key, value) in p[key] = value })
+                params = p
+            }
         } else {
             params = options
         }

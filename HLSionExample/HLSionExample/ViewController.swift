@@ -18,8 +18,8 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // https://developer.apple.com/streaming/examples/
-        sources.append(HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS", data: ["infomation": ["json": "data test"]]))
-        //sources.append(HLSion(url: URL(string: "https://vod.mubeat.tv/clip/111001/clip_7800.m3u8")!, options: ["AVURLAssetHTTPHeaderFieldsKey": ["Cookie": "CloudFront-Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly92b2QubXViZWF0LnR2L2NsaXAvMTExMDAxLyoqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNTM4MTEzNDUyfX19XX0_;CloudFront-Signature=Tv8SINYtB68~MrRoXDbd9HX0ZA-Hpncubu2kJogUz19oBHTbO-c9D~xl2B8sgHtey-XIwIwGF2tq8EIs~-2BDph0wzaBWOeespV3cnzZ7ox~wv8riKJvrc6nomE7syPrtQs~sLYLzFYvvgs7p7cA97eCpb1EXnZmiB0fOiaPZlZhgwanjA4I0i-FuwKT5HRz1H2JT27kV8b73rElStMP26INK8Gn~9lXrGAxHgD1quGFHudwA6dQNQmbsvoasfSMOnYh2AdJKY3b7pGqOFDseRsgMLGndZ0fE1EC18JNVUWRbv8uPvQXHKWI14gwfKqdRgqvOZk0Kcjri70vRpYKdA__;CloudFront-Key-Pair-Id=APKAJT3546SXLJW24SGQ"]], name: "111001"))
+        //sources.append(HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS", data: ["infomation": ["json": "data test"]]))
+        sources.append(HLSion(url: URL(string: "https://vod.mubeat.tv/clip/111001/clip_365.m3u8")!, options: ["AVURLAssetHTTPHeaderFieldsKey": ["Cookie": "CloudFront-Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly92b2QubXViZWF0LnR2L2NsaXAvMTExMDAxLyoqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNTQwMTkzMzAxfX19XX0_;CloudFront-Signature=b0x~I1CcxhNjVRbmoIerCLz4AV~8DxWH3kk9QAKIEPL6pYst5Ds1ZOFCAFpEUS-OgJPqrDeQqSMy2Bul2d9-h0VYatvlfyQau8jL~afciYlcykScV4DCguLNQeopvXYmbTRt9obJUja2OrTBBAzN~nXAty-OF~qNdjz70uuh5vF50e9AEaF6k7lfn67iC25SKXEVoiRxunKUlCTFFLYQ1f~zv6Nam--vRBX~B3Y9r3Xp06EMQQBvbmYmDpDIAe4~QRqFc2NQztR2Dcnb50VXqZ1AkXMdirhQs~FEwmqPRVSs48Ap9JGiIv7-kdnEkwZb~ZDrkLIcN7cjKBRYkN3czw__"]], name: "111001"))
     }
 
     override func didReceiveMemoryWarning() {
@@ -64,6 +64,12 @@ class ViewController: UITableViewController {
                 DispatchQueue.main.async {
                     tableView.reloadData()
                     print(relativePath)
+                    
+                    if let url = URL(string: relativePath) {
+                        let asset = AVURLAsset(url: url)
+                        let addtions = self.downloadableAddtionalMedias(asset)
+                        self.download(subtitles: hlsion, identifier: hlsion.name, addtions: addtions)
+                    }
                 }
             }.onError { (error) in
                 print("Error finish. \(error)")
@@ -132,5 +138,23 @@ class ViewController: UITableViewController {
             tableView.reloadData()
         })
         return [deleteAction]
+    }
+    
+    // MARK: addtionals
+    
+    fileprivate func downloadableAddtionalMedias(_ asset: AVURLAsset) -> [(AVMediaSelectionGroup, AVMediaSelectionOption)] {
+        var captions: [(AVMediaSelectionGroup, AVMediaSelectionOption)] = []
+        if let group = asset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristicLegible), group.options.count > 0 {
+            for item in group.options {
+                captions.append((group, item))
+            }
+        }
+        return captions
+    }
+    
+    fileprivate func download(subtitles session: HLSion, identifier: String, addtions: [(AVMediaSelectionGroup, AVMediaSelectionOption)]) {
+        for item in addtions {
+            session.downloadAdditional(media: item) // TODO : 여기 진행중.
+        }
     }
 }

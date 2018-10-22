@@ -191,6 +191,7 @@ public class HLSion {
         dummy.download(progress: { (percent) in
             print(percent)
         }).finish { [weak dummy] _ in
+            print("downloadAdditional : finished.")
             guard let dummyMediaSelection = dummy?.resolvedMediaSelection else { return }
             let mediaSelection = dummyMediaSelection.mutableCopy() as! AVMutableMediaSelection
             mediaSelection.select(media.1, in: media.0)
