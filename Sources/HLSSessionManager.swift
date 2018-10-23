@@ -45,6 +45,8 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
     func downloadStream(_ hlsion: HLSion, options: [String: Any]? = nil, isForced: Bool = false) {
         guard assetExists(forName: hlsion.name) == false || isForced == true else { return }
         
+        hlsion.result = nil
+        
         if #available(iOS 10.0, *) {
             
             guard let task = session.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: options) else { return }

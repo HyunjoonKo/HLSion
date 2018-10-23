@@ -190,16 +190,18 @@ public class HLSion {
         let mediaSelection = dummyMediaSelection.mutableCopy() as! AVMutableMediaSelection
         mediaSelection.select(media.1, in: media.0)
         HLSSessionManager.shared.downloadAdditional(media: mediaSelection, option: media.1, hlsion: self)
+        
+        self.progressClosure = nil
         self.download(progress: progress)
+        
+        self.finishClosure = nil
         if let completion = finish {
-            _ = self.onFinish(relativePath: completion)
-        } else {
-            self.finishClosure = nil
+            self.onFinish(relativePath: completion)
         }
+        
+        self.errorClosure = nil
         if let e = error {
-            _ = self.onError(error: e)
-        } else {
-            self.errorClosure = nil
+            self.onError(error: e)
         }
         
         return self
