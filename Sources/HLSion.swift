@@ -192,11 +192,13 @@ public class HLSion {
         HLSSessionManager.shared.downloadAdditional(media: mediaSelection, option: media.1, hlsion: self)
         self.download(progress: progress)
         if let completion = finish {
-            self.finish(relativePath: completion)
+            _ = self.finish(relativePath: completion)
         } else {
             self.finishClosure = nil
         }
-        self.errorClosure = nil
+        self.onError { _ in
+            self.finishClosure?("")
+        }
         return self
     }
     

@@ -114,7 +114,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
                 
             default:
                 hlsion.result = .failure(error)
-                print("An unexpected error occured \(error.domain)")
+                print("An unexpected error occured \(error.domain) >> \(error.localizedDescription)")
             }
         } else {
             hlsion.result = .success

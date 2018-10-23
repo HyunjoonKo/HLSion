@@ -19,6 +19,7 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
         // https://developer.apple.com/streaming/examples/
         sources.append(HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS", data: ["infomation": ["json": "data test"]]))
+        //sources.append(HLSion(url: URL(string: "https://vod.mubeat.tv/clip/111000/clip_3000.m3u8")!, options: ["AVURLAssetHTTPHeaderFieldsKey": ["Cookie": "CloudFront-Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly92b2QubXViZWF0LnR2L2NsaXAvMTExMDAwLyoqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNTQwMjYyMjY3fX19XX0_;CloudFront-Signature=UswE1Fk0IYyCM-Xv5eDhbSiML7fT98hgIWm6w-PggUebfCDOSFt~zjEhghcTZAqpdrUvcF4NvKpJpj084e2wnSenFiAaBTWXXSDvWiRnezr4SCmpvmrprTzVKY9-h8zuSOTMf3ocABDB4OvVqfwcHXUvqDgrXUM00M4lznZQ2dO1YyRkSa-tpLDLPxRdQQ~5aWBKg-1G3j4yN2RpL3PAM3YrJHJaqz0p1KsNGkV7ZOglbYuAO2lUHBT7tqFBkshFj5nQuCQ67UqU0VUxTrEzcP~eFn-k-Uq8OFxWw0fELgVROHSem12u6obFg3ffMofOrM1zWGzoGUr4zhwoqWoQ0w__;CloudFront-Key-Pair-Id=APKAJT3546SXLJW24SGQ"]], name: "111000"))
     }
 
     override func didReceiveMemoryWarning() {
