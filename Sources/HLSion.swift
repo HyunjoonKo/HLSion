@@ -197,7 +197,7 @@ public class HLSion {
             self.finishClosure = nil
         }
         if let e = error {
-            self.onError(error: e)
+            _ = self.onError(error: e)
         } else {
             self.errorClosure = nil
         }
