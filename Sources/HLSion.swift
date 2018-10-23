@@ -116,7 +116,7 @@ public class HLSion {
     /// - Parameter closure: Progress closure that will invoke when download each time range files.
     /// - Returns: Chainable self instance.
     @discardableResult
-    public func progress(progress closure: @escaping ProgressParameter) -> Self {
+    public func onProgress(progress closure: @escaping ProgressParameter) -> Self {
         progressClosure = closure
         return self
     }
@@ -126,7 +126,7 @@ public class HLSion {
     /// - Parameter closure: Finish closure that will invoke when successfully finished download media.
     /// - Returns: Chainable self instance.
     @discardableResult
-    public func finish(relativePath closure: @escaping FinishParameter) -> Self {
+    public func onFinish(relativePath closure: @escaping FinishParameter) -> Self {
         finishClosure = closure
         if let result = result, case .success = result {
             closure(AssetStore.path(forName: name)!.path!)
@@ -184,7 +184,7 @@ public class HLSion {
     /// - Parameter media: Selected pair from `downloadableAdditionalMedias`
     /// - Returns: Chainable self instance. WARN: progress and finish closures are shared.
     @discardableResult
-    public func downloadAdditional(media: (AVMediaSelectionGroup, AVMediaSelectionOption), progress: ProgressParameter? = nil, finish: FinishParameter? = nil) -> Self {
+    public func downloadAdditional(media: (AVMediaSelectionGroup, AVMediaSelectionOption), progress: ProgressParameter? = nil, finish: FinishParameter? = nil, error: ErrorParameter? = nil) -> Self {
         guard state == .downloaded else { return self }
         guard let dummyMediaSelection = self.resolvedMediaSelection else { return self }
         let mediaSelection = dummyMediaSelection.mutableCopy() as! AVMutableMediaSelection
@@ -192,13 +192,16 @@ public class HLSion {
         HLSSessionManager.shared.downloadAdditional(media: mediaSelection, option: media.1, hlsion: self)
         self.download(progress: progress)
         if let completion = finish {
-            _ = self.finish(relativePath: completion)
+            _ = self.onFinish(relativePath: completion)
         } else {
             self.finishClosure = nil
         }
-        self.onError { _ in
-            self.finishClosure?("")
+        if let e = error {
+            self.onError(error: e)
+        } else {
+            self.errorClosure = nil
         }
+        
         return self
     }
     
