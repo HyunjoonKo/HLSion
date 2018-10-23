@@ -42,22 +42,12 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         }
     }
     
-    func downloadStream(_ hlsion: HLSion, options: [String: Any]? = nil) {
-        guard assetExists(forName: hlsion.name) == false else { return }
-        
-        var params = hlsion.options
-        if var p = params, p.keys.count > 0 {
-            if let opt = options {                
-                opt.forEach({ (key, value) in p[key] = value })
-                params = p
-            }
-        } else {
-            params = options
-        }
+    func downloadStream(_ hlsion: HLSion, options: [String: Any]? = nil, isForced: Bool = false) {
+        guard assetExists(forName: hlsion.name) == false || isForced == true else { return }
         
         if #available(iOS 10.0, *) {
             
-            guard let task = session.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: params) else { return }
+            guard let task = session.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: options) else { return }
             
             task.taskDescription = hlsion.name
             downloadingMap[task] = hlsion
@@ -68,7 +58,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
             
             guard let localFileLocation = AssetStore.path(forName: hlsion.name)?.path else { return }
             let fileURL = homeDirectoryURL.appendingPathComponent(localFileLocation)
-            guard let task = session.makeAssetDownloadTask(asset:  hlsion.urlAsset, destinationURL: fileURL, options: params) else { return }
+            guard let task = session.makeAssetDownloadTask(asset:  hlsion.urlAsset, destinationURL: fileURL, options: options) else { return }
             
             task.taskDescription = hlsion.name
             downloadingMap[task] = hlsion
@@ -77,10 +67,10 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         }
     }
     
-    func downloadAdditional(media: AVMutableMediaSelection, hlsion: HLSion) {
-        guard assetExists(forName: hlsion.name) == true else { return }        
+    func downloadAdditional(media: AVMutableMediaSelection, option: AVMediaSelectionOption, hlsion: HLSion) {
+        guard assetExists(forName: hlsion.name) == true else { return }
         let options = [AVAssetDownloadTaskMediaSelectionKey: media]
-        self.downloadStream(hlsion, options: options)
+        self.downloadStream(hlsion, options: options, isForced: true)
     }
     
     func cancelDownload(_ hlsion: HLSion) {
@@ -160,11 +150,8 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         progressClosure(percentComplete)
     }
     
-//    func urlSession(_ session: URLSession, assetDownloadTask: AVAssetDownloadTask, didResolve resolvedMediaSelection: AVMediaSelection) {
-//        if assetDownloadTask.taskDescription == "jp.HLSion.dummy" {
-//            guard let hlsion = downloadingMap[assetDownloadTask] else { return }
-//            hlsion.resolvedMediaSelection = resolvedMediaSelection
-//            assetDownloadTask.cancel()
-//        }
-//    }
+    func urlSession(_ session: URLSession, assetDownloadTask: AVAssetDownloadTask, didResolve resolvedMediaSelection: AVMediaSelection) {
+        guard let hlsion = downloadingMap[assetDownloadTask] else { return }
+        hlsion.resolvedMediaSelection = resolvedMediaSelection
+    }
 }

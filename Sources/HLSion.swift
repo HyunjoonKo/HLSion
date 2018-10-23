@@ -184,20 +184,19 @@ public class HLSion {
     /// - Parameter media: Selected pair from `downloadableAdditionalMedias`
     /// - Returns: Chainable self instance. WARN: progress and finish closures are shared.
     @discardableResult
-    public func downloadAdditional(media: (AVMediaSelectionGroup, AVMediaSelectionOption)) -> Self {
+    public func downloadAdditional(media: (AVMediaSelectionGroup, AVMediaSelectionOption), progress: ProgressParameter? = nil, finish: FinishParameter? = nil) -> Self {
         guard state == .downloaded else { return self }
-        //completed = false
-        let dummy = HLSion(url: urlAsset.url, name: "jp.HLSion.dummy")
-        dummy.download(progress: { (percent) in
-            print(percent)
-        }).finish { [weak dummy] _ in
-            print("downloadAdditional : finished.")
-            guard let dummyMediaSelection = dummy?.resolvedMediaSelection else { return }
-            let mediaSelection = dummyMediaSelection.mutableCopy() as! AVMutableMediaSelection
-            mediaSelection.select(media.1, in: media.0)
-            
-            HLSSessionManager.shared.downloadAdditional(media: mediaSelection, hlsion: self)
+        guard let dummyMediaSelection = self.resolvedMediaSelection else { return self }
+        let mediaSelection = dummyMediaSelection.mutableCopy() as! AVMutableMediaSelection
+        mediaSelection.select(media.1, in: media.0)
+        HLSSessionManager.shared.downloadAdditional(media: mediaSelection, option: media.1, hlsion: self)
+        self.download(progress: progress)
+        if let completion = finish {
+            self.finish(relativePath: completion)
+        } else {
+            self.finishClosure = nil
         }
+        self.errorClosure = nil
         return self
     }
     
