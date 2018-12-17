@@ -114,7 +114,6 @@ public class HLSion {
     public func download(progress closure: ProgressParameter? = nil) -> Self {
         progressClosure = closure
         HLSSessionManager.shared.downloadStream(self)
-        print("HLSSessionManager download > \(String(describing: progressClosure))")
         return self
     }
     
@@ -125,7 +124,6 @@ public class HLSion {
     @discardableResult
     public func onProgress(progress closure: @escaping ProgressParameter) -> Self {
         progressClosure = closure
-        print("HLSSessionManager onProgress > \(String(describing: progressClosure))")
         return self
     }
     
@@ -139,7 +137,6 @@ public class HLSion {
         if let result = result, case .success = result {
             closure(AssetStore.path(forName: name)!.path!)
         }
-        print("HLSSessionManager onFinish > \(String(describing: finishClosure))")
         return self
     }
     
@@ -153,7 +150,6 @@ public class HLSion {
         if let result = result, case .failure(let err) = result {
             closure(err)
         }
-        print("HLSSessionManager onError > \(String(describing: errorClosure))")
         return self
     }
     

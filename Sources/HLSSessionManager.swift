@@ -165,8 +165,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
             self.set(totalTimeRangesLoaded: loadedTimeRanges, timeRangeExpectedToLoad: timeRangeExpectedToLoad, progressClosure: progressClosure)
         } else {
             guard let progressClosure = hlsion.progressClosure else { return }
-            self.set(totalTimeRangesLoaded: loadedTimeRanges, timeRangeExpectedToLoad: timeRangeExpectedToLoad, progressClosure: progressClosure)
-            
+            self.set(totalTimeRangesLoaded: loadedTimeRanges, timeRangeExpectedToLoad: timeRangeExpectedToLoad, progressClosure: progressClosure)            
         }
     }
     
