@@ -68,15 +68,14 @@ public class HLSion {
     public var data: Any?
     
     public var isDownloadAddtions: Bool = false
+    public var finishAdditionalClosure: FinishParameter?
+    public var errorAdditionalClosure: ErrorParameter?
     
     internal var result: Result?
     internal var progressClosure: ProgressParameter?
     internal var finishClosure: FinishParameter?
     internal var errorClosure: ErrorParameter?
     internal var resolvedMediaSelection: AVMediaSelection?
-    
-    internal var finishAdditionalClosure: FinishParameter?
-    internal var errorAdditionalClosure: ErrorParameter?
     
     // MARK: Intialization
     
