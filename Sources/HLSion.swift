@@ -68,8 +68,9 @@ public class HLSion {
     public var data: Any?
     
     public var isDownloadAddtions: Bool = false
-    public var finishAdditionalClosure: FinishParameter?
-    public var errorAdditionalClosure: ErrorParameter?
+    internal var progressAdditionalClosure: ProgressParameter?
+    internal var finishAdditionalClosure: FinishParameter?
+    internal var errorAdditionalClosure: ErrorParameter?
     
     internal var result: Result?
     internal var progressClosure: ProgressParameter?
@@ -198,6 +199,7 @@ public class HLSion {
         guard let dummyMediaSelection = self.resolvedMediaSelection else { return self }
         
         self.isDownloadAddtions = true
+        self.progressAdditionalClosure = progress
         self.finishAdditionalClosure = finish
         self.errorAdditionalClosure = error
         

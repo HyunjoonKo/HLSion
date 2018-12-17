@@ -92,6 +92,15 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         return FileManager.default.fileExists(atPath: filePath)
     }
     
+    fileprivate func set(totalTimeRangesLoaded loadedTimeRanges: [NSValue], timeRangeExpectedToLoad: CMTimeRange, progressClosure: ProgressParameter) {
+        let percentComplete = loadedTimeRanges.reduce(0.0) {
+            let loadedTimeRange : CMTimeRange = $1.timeRangeValue
+            return $0 + CMTimeGetSeconds(loadedTimeRange.duration) / CMTimeGetSeconds(timeRangeExpectedToLoad.duration)
+        }
+        
+        progressClosure(percentComplete)
+    }
+    
     // MARK: AVAssetDownloadDelegate
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
@@ -150,14 +159,15 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
                     timeRangeExpectedToLoad: CMTimeRange) {
         guard let hlsion = downloadingMap[assetDownloadTask] else { return }
         hlsion.result = nil
-        guard let progressClosure = hlsion.progressClosure else { return }
         
-        let percentComplete = loadedTimeRanges.reduce(0.0) {
-            let loadedTimeRange : CMTimeRange = $1.timeRangeValue
-            return $0 + CMTimeGetSeconds(loadedTimeRange.duration) / CMTimeGetSeconds(timeRangeExpectedToLoad.duration)
+        if hlsion.isDownloadAddtions {
+            guard let progressClosure = hlsion.progressAdditionalClosure else { return }
+            self.set(totalTimeRangesLoaded: loadedTimeRanges, timeRangeExpectedToLoad: timeRangeExpectedToLoad, progressClosure: progressClosure)
+        } else {
+            guard let progressClosure = hlsion.progressClosure else { return }
+            self.set(totalTimeRangesLoaded: loadedTimeRanges, timeRangeExpectedToLoad: timeRangeExpectedToLoad, progressClosure: progressClosure)
+            
         }
-        
-        progressClosure(percentComplete)
     }
     
     func urlSession(_ session: URLSession, assetDownloadTask: AVAssetDownloadTask, didResolve resolvedMediaSelection: AVMediaSelection) {
