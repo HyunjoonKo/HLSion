@@ -108,6 +108,7 @@ public class HLSion {
     public func download(progress closure: ProgressParameter? = nil) -> Self {
         progressClosure = closure
         HLSSessionManager.shared.downloadStream(self)
+        print("HLSSessionManager download > \(String(describing: progressClosure))")
         return self
     }
     
@@ -118,6 +119,7 @@ public class HLSion {
     @discardableResult
     public func onProgress(progress closure: @escaping ProgressParameter) -> Self {
         progressClosure = closure
+        print("HLSSessionManager onProgress > \(String(describing: progressClosure))")
         return self
     }
     
@@ -131,6 +133,7 @@ public class HLSion {
         if let result = result, case .success = result {
             closure(AssetStore.path(forName: name)!.path!)
         }
+        print("HLSSessionManager onFinish > \(String(describing: finishClosure))")
         return self
     }
     
@@ -144,6 +147,7 @@ public class HLSion {
         if let result = result, case .failure(let err) = result {
             closure(err)
         }
+        print("HLSSessionManager onError > \(String(describing: errorClosure))")
         return self
     }
     
@@ -187,9 +191,6 @@ public class HLSion {
     public func downloadAdditional(media: (AVMediaSelectionGroup, AVMediaSelectionOption), progress: ProgressParameter? = nil, finish: FinishParameter? = nil, error: ErrorParameter? = nil) -> Self {
         guard state == .downloaded else { return self }
         guard let dummyMediaSelection = self.resolvedMediaSelection else { return self }
-        let mediaSelection = dummyMediaSelection.mutableCopy() as! AVMutableMediaSelection
-        mediaSelection.select(media.1, in: media.0)
-        HLSSessionManager.shared.downloadAdditional(media: mediaSelection, option: media.1, hlsion: self)
         
         self.progressClosure = nil
         self.download(progress: progress)
@@ -203,6 +204,10 @@ public class HLSion {
         if let e = error {
             self.onError(error: e)
         }
+        
+        let mediaSelection = dummyMediaSelection.mutableCopy() as! AVMutableMediaSelection
+        mediaSelection.select(media.1, in: media.0)
+        HLSSessionManager.shared.downloadAdditional(media: mediaSelection, option: media.1, hlsion: self)
         
         return self
     }
