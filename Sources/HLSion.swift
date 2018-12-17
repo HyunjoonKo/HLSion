@@ -67,17 +67,23 @@ public class HLSion {
     /// save other data objects.
     public var data: Any?
     
+    public var isDownloadAddtions: Bool = false
+    
     internal var result: Result?
     internal var progressClosure: ProgressParameter?
     internal var finishClosure: FinishParameter?
     internal var errorClosure: ErrorParameter?
     internal var resolvedMediaSelection: AVMediaSelection?
     
+    internal var finishAdditionalClosure: FinishParameter?
+    internal var errorAdditionalClosure: ErrorParameter?
+    
     // MARK: Intialization
     
     public init(asset: AVURLAsset, description: String) {
         name = description
         urlAsset = asset
+        isDownloadAddtions = false
     }
     
     /// Initialize HLSion
@@ -192,18 +198,9 @@ public class HLSion {
         guard state == .downloaded else { return self }
         guard let dummyMediaSelection = self.resolvedMediaSelection else { return self }
         
-        self.progressClosure = nil
-        self.download(progress: progress)
-        
-        self.finishClosure = nil
-        if let completion = finish {
-            self.onFinish(relativePath: completion)
-        }
-        
-        self.errorClosure = nil
-        if let e = error {
-            self.onError(error: e)
-        }
+        self.isDownloadAddtions = true
+        self.finishAdditionalClosure = finish
+        self.errorAdditionalClosure = error
         
         let mediaSelection = dummyMediaSelection.mutableCopy() as! AVMutableMediaSelection
         mediaSelection.select(media.1, in: media.0)

@@ -95,7 +95,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
     // MARK: AVAssetDownloadDelegate
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        guard let task = task as? AVAssetDownloadTask , let hlsion = downloadingMap.removeValue(forKey: task) else { return }
+        guard let task = task as? AVAssetDownloadTask , let hlsion = downloadingMap.removeValue(forKey: task), let path = AssetStore.path(forName: hlsion.name)?.path else { return }
         
         if let error = error as NSError? {
             switch (error.domain, error.code) {
@@ -123,9 +123,17 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         }
         switch hlsion.result! {
         case .success:
-            hlsion.finishClosure?(AssetStore.path(forName: hlsion.name)!.path!)
+            if hlsion.isDownloadAddtions {
+                hlsion.finishAdditionalClosure?(path)
+            } else {
+                hlsion.finishClosure?(path)
+            }
         case .failure(let err):
-            hlsion.errorClosure?(err)
+            if hlsion.isDownloadAddtions {
+                hlsion.errorAdditionalClosure?(err)
+            } else {
+                hlsion.errorClosure?(err)
+            }
         }
     }
     
