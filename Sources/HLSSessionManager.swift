@@ -130,18 +130,21 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         } else {
             hlsion.result = .success
         }
-        switch hlsion.result! {
-        case .success:
-            if hlsion.isDownloadAddtions {
-                hlsion.finishAdditionalClosure?(path)
-            } else {
-                hlsion.finishClosure?(path)
-            }
-        case .failure(let err):
-            if hlsion.isDownloadAddtions {
-                hlsion.errorAdditionalClosure?(err)
-            } else {
-                hlsion.errorClosure?(err)
+        
+        if let result = hlsion.result {
+            switch result {
+            case .success:
+                if hlsion.isDownloadAddtions {
+                    hlsion.finishAdditionalClosure?(path)
+                } else {
+                    hlsion.finishClosure?(path)
+                }
+            case .failure(let err):
+                if hlsion.isDownloadAddtions {
+                    hlsion.errorAdditionalClosure?(err)
+                } else {
+                    hlsion.errorClosure?(err)
+                }
             }
         }
     }
