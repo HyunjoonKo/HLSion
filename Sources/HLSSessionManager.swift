@@ -76,7 +76,10 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
     }
     
     func cancelDownload(_ hlsion: HLSion) {
-        downloadingMap.first(where: { $1 == hlsion })?.key.cancel()
+        if let index = downloadingMap.firstIndex(where: { $1 == hlsion }) {
+            downloadingMap[index].key.cancel()
+            downloadingMap.remove(at: index)
+        }
     }
     
     func deleteAsset(forName: String) throws {

@@ -18,7 +18,13 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // https://developer.apple.com/streaming/examples/
-        sources.append(HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS", data: ["infomation": ["json": "data test"]]))
+        sources = [
+            HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 1", data: ["infomation": ["json": "data test 1"]]),
+            HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 2", data: ["infomation": ["json": "data test 2"]]),
+            HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 3", data: ["infomation": ["json": "data test 3"]]),
+            HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 4", data: ["infomation": ["json": "data test 4"]]),
+            HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 5", data: ["infomation": ["json": "data test 5"]])
+        ]
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,7 +43,7 @@ class ViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return sources.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -71,6 +77,8 @@ class ViewController: UITableViewController {
                 print("Error finish. \(error)")
             }
         case .downloading:
+            hlsion.cancelDownload()
+            tableView.reloadData()
             break
         case .downloaded:
             performSegue(withIdentifier: "AVPlayerViewControllerSegue", sender: hlsion)
