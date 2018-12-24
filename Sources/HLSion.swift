@@ -153,9 +153,15 @@ public class HLSion {
         return self
     }
     
+    /// Pause download.
+    public func pauseDownload() {
+        HLSSessionManager.shared.cancelDownload(self)
+    }
+    
     /// Cancel download.
     public func cancelDownload() {
-        HLSSessionManager.shared.cancelDownload(self)
+        pauseDownload()
+        AssetStore.remove(forName: name)
     }
     
     /// Delete local stored HLS asset.
