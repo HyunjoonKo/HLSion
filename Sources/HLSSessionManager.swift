@@ -48,11 +48,11 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         hlsion.result = nil
         
         guard let task = session?.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: options) else { return }
-        
         task.taskDescription = hlsion.name
         downloadingMap[task] = hlsion
         
         task.resume()
+        
     }
     
     func downloadAdditional(media: AVMutableMediaSelection, option: AVMediaSelectionOption, hlsion: HLSion) {
