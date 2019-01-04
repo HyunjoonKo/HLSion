@@ -15,24 +15,24 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
     static let shared = HLSSessionManager()
     
     internal var homeDirectoryURL = URL(fileURLWithPath: NSHomeDirectory())
-    private var session: AVAssetDownloadURLSession!
     internal var downloadingMap = [AVAssetDownloadTask : HLSion]()
+    private var session: AVAssetDownloadURLSession?
     
     // MARK: Intialization
     
     override private init() {
         super.init()
         let configuration = URLSessionConfiguration.background(withIdentifier: "jp.HLSion.configuration")
-        session = AVAssetDownloadURLSession(configuration: configuration,
-                                                            assetDownloadDelegate: self,
-                                                            delegateQueue: OperationQueue.main)
+        let downloadURLSession = AVAssetDownloadURLSession(configuration: configuration, assetDownloadDelegate: self, delegateQueue: OperationQueue.main)
+        session = downloadURLSession
+        
         restoreDownloadsMap()
     }
     
     // MARK: Method
     
     private func restoreDownloadsMap() {
-        session.getAllTasks { tasksArray in
+        session?.getAllTasks { tasksArray in
             for task in tasksArray {
                 guard let assetDownloadTask = task as? AVAssetDownloadTask, let hlsionName = task.taskDescription else { break }
                 
@@ -47,26 +47,12 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         
         hlsion.result = nil
         
-        if #available(iOS 10.0, *) {
-            
-            guard let task = session.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: options) else { return }
-            
-            task.taskDescription = hlsion.name
-            downloadingMap[task] = hlsion
-            
-            task.resume()
-            
-        } else {
-            
-            guard let localFileLocation = AssetStore.path(forName: hlsion.name)?.path else { return }
-            let fileURL = homeDirectoryURL.appendingPathComponent(localFileLocation)
-            guard let task = session.makeAssetDownloadTask(asset:  hlsion.urlAsset, destinationURL: fileURL, options: options) else { return }
-            
-            task.taskDescription = hlsion.name
-            downloadingMap[task] = hlsion
-            
-            task.resume()
-        }
+        guard let task = session?.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: options) else { return }
+        
+        task.taskDescription = hlsion.name
+        downloadingMap[task] = hlsion
+        
+        task.resume()
     }
     
     func downloadAdditional(media: AVMutableMediaSelection, option: AVMediaSelectionOption, hlsion: HLSion) {

@@ -23,7 +23,9 @@ class ViewController: UITableViewController {
             HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 2", data: ["infomation": ["json": "data test 2"]]),
             HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 3", data: ["infomation": ["json": "data test 3"]]),
             HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 4", data: ["infomation": ["json": "data test 4"]]),
-            HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 5", data: ["infomation": ["json": "data test 5"]])
+            HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 5", data: ["infomation": ["json": "data test 5"]]),
+            HLSion(url: URL(string: "https://vod.mubeat.tv/clip/128322/clip.m3u8")!,options: ["AVURLAssetHTTPHeaderFieldsKey": ["Cookie": "CloudFront-Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly92b2QubXViZWF0LnR2L2NsaXAvMTI4MzIyLyoqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNTQ2NTg2MjE5fX19XX0_;CloudFront-Signature=aV2FPfrQKfUsyTTwDaZBh2uXg9qZdDxr8un7Q9JlM9IQdtO7RXWAlgN-SzHbEpkMzpBVvNTdkTysrwRfzI1J6sDEnI9hzIHs1X79vVc8h3AyVKWLrsCuF6m4DcVDVF4Gf9DddmPZV~TquhLOumsZeHxcmffNNEAx77z7xoOK1VAPkNhLQh3A1uREijjSxYiPR0M01pTxglhidEAqviXZDZ5oIQ0AdMRpYKkr2Bgup5bf7luyvrOwOaNSlgrGVH9s6f1F3lK6x-UZyNp8mx2H~1exeE0WTtBpz-T4al6W4FAUDh8nlVCzHrGEauxFXNUTWAnOIRjJ~z5HEpsc6xq-yA__;CloudFront-Key-Pair-Id=APKAJT3546SXLJW24SGQ"]], name: "MONSTA X - SPOTLIGHT + Shoot Out", data: ["infomation": ["json": "data test 6"]]),
+            HLSion(url: URL(string: "https://vod.mubeat.tv/clip/128284/clip.m3u8")!,options: ["AVURLAssetHTTPHeaderFieldsKey": ["Cookie": "CloudFront-Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly92b2QubXViZWF0LnR2L2NsaXAvMTI4Mjg0LyoqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNTQ2NTkwNjAyfX19XX0_;CloudFront-Signature=CO7BnsSet2DJJng-Xb3dffCRjuDGoONhdwZvDHWMQOBT0gzTngGfGr~r2HD7K1OV3hvlRSMwhQji~dr9EPlOeE-SvvOzjKxg600dVes1EnS4Ov8vlwsbkxVamc-UIWq8vAF4~XmXNUmBB7uj2qoxFRrWGsOPsuT7idr3P-l9ZXOflD34SzuKaG0bI1nPO5ZoQGobTo9GJekO6AB0p4ootFUZHvBSqV44GSo~lBiBTXosstGg0KvyLUotgl0oqpoLiMZCHfL21CAsZepR2t42sANY5M05NMaLgJfwnhE3xPTJ-ejXtsuirH~0~zk6U8g16asn7HoK11eiFQgmHNeVww__;CloudFront-Key-Pair-Id=APKAJT3546SXLJW24SGQ"]], name: "BTS", data: ["infomation": ["json": "data test 7"]])
         ]
     }
 
@@ -148,7 +150,7 @@ class ViewController: UITableViewController {
     
     fileprivate func downloadableAddtionalMedias(_ asset: AVURLAsset) -> [(AVMediaSelectionGroup, AVMediaSelectionOption)] {
         var captions: [(AVMediaSelectionGroup, AVMediaSelectionOption)] = []
-        if let group = asset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristicLegible), group.options.count > 0 {
+        if let group = asset.mediaSelectionGroup(forMediaCharacteristic: AVMediaCharacteristic.legible), group.options.count > 0 {
             for item in group.options {
                 captions.append((group, item))
             }

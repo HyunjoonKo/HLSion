@@ -6,9 +6,15 @@ HTTP Live Streaming (HLS) download manager to offline playback.
 
 ## Requirements
 
-- iOS 9.0+
+- iOS 10.0+
 - Xcode 8.0+
-- Swift 3.0+
+- Swift 4.2
+
+AVAssetDownloadTask and AVAssetDownloadURLSession are documented in iOS 9, but in reality the following error occurs and can not be used:
+```swift
+dyld: Symbol not found: _OBJC_CLASS_$_AVAssetDownloadTask
+```
+That's why I release a supported version on iOS 10.
 
 ## Installation
 
