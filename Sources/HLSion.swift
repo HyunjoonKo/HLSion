@@ -39,7 +39,7 @@ public class HLSion {
     }
     /// Download state.
     public var state: State {
-        if HLSSessionManager.shared.assetExists(forName: name) {
+        if HLSSessionManager.shared.assetExists(forName: name), offlineAssetSize > 0 {
             return .downloaded
         }
         if HLSSessionManager.shared.downloadingMap.count > 0, let _ = HLSSessionManager.shared.downloadingMap.first(where: { $1 == self }) {
