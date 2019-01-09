@@ -75,6 +75,16 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         AssetStore.remove(forName: forName)
     }
     
+    func forceDelete(forName: String) {
+        do {
+            try self.deleteAsset(forName: forName)
+        } catch {
+            print("remove asset error: \(forName) ~>> \(error)")
+        }
+        guard AssetStore.path(forName: forName) != nil else { return }
+        AssetStore.remove(forName: forName)
+    }
+    
     func assetExists(forName: String) -> Bool {
         guard let relativePath = AssetStore.path(forName: forName)?.path else { return false }
         let filePath = homeDirectoryURL.appendingPathComponent(relativePath).path
