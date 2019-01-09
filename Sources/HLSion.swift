@@ -171,6 +171,16 @@ public class HLSion {
         try HLSSessionManager.shared.deleteAsset(forName: name)
     }
     
+    public func forceDeleteAsset() {
+        do {
+            try deleteAsset()
+        } catch {
+            print("remove asset error: \(name) ~>> \(error)")
+        }
+        guard AssetStore.path(forName: name) != nil else { return }
+        AssetStore.remove(forName: name)
+    }
+    
     /// Additional downloadable media selection group and option. Return empty array if not yet download to local or completly downloaded all medias.
     ///
     /// - Returns: media group and options.
