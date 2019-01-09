@@ -49,7 +49,7 @@ public class HLSion {
     }
     /// File size of downloaded HLS asset.
     public var offlineAssetSize: UInt64 {
-        guard state == .downloaded else { return 0 }
+        //guard state == .downloaded else { return 0 }
         guard let relativePath = AssetStore.path(forName: name)?.path else { return 0 }
         let bundleURL = HLSSessionManager.shared.homeDirectoryURL.appendingPathComponent(relativePath)
         guard let subpaths = try? FileManager.default.subpathsOfDirectory(atPath: bundleURL.path) else { return 0 }
