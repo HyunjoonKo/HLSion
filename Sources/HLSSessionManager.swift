@@ -15,18 +15,31 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
     static let shared = HLSSessionManager()
     
     internal var homeDirectoryURL = URL(fileURLWithPath: NSHomeDirectory())
-    internal var downloadingMap = [AVAssetDownloadTask : HLSion]()
+    internal var downloadingMap = [URLSessionTask : HLSion]()
     private var session: AVAssetDownloadURLSession?
     
     // MARK: Intialization
     
     override private init() {
         super.init()
+        
+        prepareForURLSession()
+        restoreDownloadsMap()
+    }
+    
+    @discardableResult
+    func prepareForURLSession(_ option: [AnyHashable : Any]? = nil) -> AVAssetDownloadURLSession? {
         let configuration = URLSessionConfiguration.background(withIdentifier: "jp.HLSion.configuration")
+        configuration.timeoutIntervalForRequest = 6000.0
+        configuration.timeoutIntervalForResource = 6000.0
+        configuration.shouldUseExtendedBackgroundIdleMode = true
+        configuration.isDiscretionary = false
+        configuration.networkServiceType = .video
+        configuration.httpAdditionalHeaders = option
         let downloadURLSession = AVAssetDownloadURLSession(configuration: configuration, assetDownloadDelegate: self, delegateQueue: OperationQueue.main)
         session = downloadURLSession
         
-        restoreDownloadsMap()
+        return downloadURLSession
     }
     
     // MARK: Method
@@ -46,8 +59,10 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         guard assetExists(forName: hlsion.name) == false || isForced == true else { return }
         
         hlsion.result = nil
+        session?.configuration.httpAdditionalHeaders = hlsion.options
         
         guard let task = session?.makeAssetDownloadTask(asset: hlsion.urlAsset, assetTitle: hlsion.name, assetArtworkData: nil, options: options) else { return }
+        
         task.taskDescription = hlsion.name
         downloadingMap[task] = hlsion
         
@@ -79,6 +94,12 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         guard let relativePath = AssetStore.path(forName: forName)?.path else { return false }
         let filePath = homeDirectoryURL.appendingPathComponent(relativePath).path
         return FileManager.default.fileExists(atPath: filePath)
+    }
+    
+    func update(infomation hlsion: HLSion) {
+        if let url = hlsion.localUrl {
+            AssetStore.set(path: url.absoluteString, options: hlsion.options, data: hlsion.data, forName: hlsion.name)
+        }
     }
     
     fileprivate func set(totalTimeRangesLoaded loadedTimeRanges: [NSValue], timeRangeExpectedToLoad: CMTimeRange, progressClosure: ProgressParameter) {
