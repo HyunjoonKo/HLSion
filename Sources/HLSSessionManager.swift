@@ -96,10 +96,11 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         return FileManager.default.fileExists(atPath: filePath)
     }
     
-    func update(infomation hlsion: HLSion) {
+    func update(infomation hlsion: HLSion) -> Bool {
         if let url = hlsion.localUrl {
-            AssetStore.set(path: url.absoluteString, options: hlsion.options, data: hlsion.data, forName: hlsion.name)
+            return AssetStore.set(path: url.absoluteString, options: hlsion.options, data: hlsion.data, forName: hlsion.name)
         }
+        return false
     }
     
     fileprivate func set(totalTimeRangesLoaded loadedTimeRanges: [NSValue], timeRangeExpectedToLoad: CMTimeRange, progressClosure: ProgressParameter) {

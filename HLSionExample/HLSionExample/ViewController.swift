@@ -23,7 +23,9 @@ class ViewController: UITableViewController {
             HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 2", data: ["infomation": ["json": "data test 2"]]),
             HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 3", data: ["infomation": ["json": "data test 3"]]),
             HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 4", data: ["infomation": ["json": "data test 4"]]),
-            HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 5", data: ["infomation": ["json": "data test 5"]])
+            HLSion(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!, name: "Sample HLS 5", data: ["infomation": ["json": "data test 5"]]),
+            HLSion(url: URL(string: "https://vod.mubeat.tv/clip/150398/clip_4.m3u8")!,options: ["AVURLAssetHTTPHeaderFieldsKey": ["Cookie": "CloudFront-Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly92b2QubXViZWF0LnR2L2NsaXAvMTUwMzk4LyoqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNTcyOTI1OTY1fX19XX0_;CloudFront-Signature=E2VGuR4wvStXjdXGCmXflRRc2ng1rwJgNg6eD0wDqgAWxN06B7TC4g6klRBSH72xmzszR20rgt5HfxgOMqZRMe3awyBR-dkZ9yqWnIi1lsFnxLfruCnqm3KzE36-uzlKXuNU2VPyYevieq3ggwsYNeKjBZEm7m2ZA1qgG2eNM381avMo151nYO297BIGI5RzGaMmlfdpJVoh2UzuZqy9JYlxeFSgQ6S1edxmM4l9px4QSSx2Q12aJR9xpkazLToMIxPF71bPEmOeES1qfw~6GhUU9x54J71AkzuPjcaYTHQZEziokaRkquMTfXV3oTya2skEIo8UH7SPOniMvCEOMA__;CloudFront-Key-Pair-Id=APKAJT3546SXLJW24SGQ"]], name: "2535232432-5", data: ["infomation": ["json": "data test 6"]]),
+
         ]
     }
     
