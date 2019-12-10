@@ -181,6 +181,12 @@ public class HLSion {
         AssetStore.remove(forName: name)
     }
     
+    // update data
+    @discardableResult
+    public func updateInfomations() -> Bool {
+        HLSSessionManager.shared.update(infomation: self)
+    }
+    
     /// Additional downloadable media selection group and option. Return empty array if not yet download to local or completly downloaded all medias.
     ///
     /// - Returns: media group and options.
