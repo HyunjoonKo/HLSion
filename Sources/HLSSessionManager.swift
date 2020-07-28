@@ -30,8 +30,8 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
     @discardableResult
     func prepareForURLSession(_ option: [AnyHashable : Any]? = nil) -> AVAssetDownloadURLSession? {
         let configuration = URLSessionConfiguration.background(withIdentifier: "jp.HLSion.configuration")
-        configuration.timeoutIntervalForRequest = 6000.0
-        configuration.timeoutIntervalForResource = 6000.0
+        configuration.timeoutIntervalForRequest = 20.0
+        configuration.timeoutIntervalForResource = 20.0
         configuration.shouldUseExtendedBackgroundIdleMode = true
         configuration.isDiscretionary = false
         configuration.networkServiceType = .video
@@ -113,7 +113,7 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
     // MARK: AVAssetDownloadDelegate
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        guard let task = task as? AVAssetDownloadTask , let hlsion = downloadingMap.removeValue(forKey: task), let path = AssetStore.path(forName: hlsion.name)?.path else { return }
+        guard let task = task as? AVAssetDownloadTask , let hlsion = downloadingMap.removeValue(forKey: task) else { return }
         
         if let error = error as NSError? {
             switch (error.domain, error.code) {
@@ -143,10 +143,12 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
         if let result = hlsion.result {
             switch result {
             case .success:
-                if hlsion.isDownloadAddtions {
-                    hlsion.finishAdditionalClosure?(path)
-                } else {
-                    hlsion.finishClosure?(path)
+                if let path = AssetStore.path(forName: hlsion.name)?.path {
+                    if hlsion.isDownloadAddtions {
+                        hlsion.finishAdditionalClosure?(path)
+                    } else {
+                        hlsion.finishClosure?(path)
+                    }
                 }
             case .failure(let err):
                 if hlsion.isDownloadAddtions {
@@ -184,5 +186,13 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
     func urlSession(_ session: URLSession, assetDownloadTask: AVAssetDownloadTask, didResolve resolvedMediaSelection: AVMediaSelection) {
         guard let hlsion = downloadingMap[assetDownloadTask] else { return }
         hlsion.resolvedMediaSelection = resolvedMediaSelection
+    }
+    
+    func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
+        print("didBecomeInvalidWithError: \(String(describing: error))")
+    }
+    
+    func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
+        print("forBackgroundURLSession: \(String(describing: session))")
     }
 }
