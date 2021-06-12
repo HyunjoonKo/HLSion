@@ -84,6 +84,8 @@ class ViewController: UITableViewController {
             break
         case .downloaded:
             performSegue(withIdentifier: "AVPlayerViewControllerSegue", sender: hlsion)
+        @unknown default:
+            break
         }
     }
     

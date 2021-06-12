@@ -8,7 +8,11 @@
 
 import Foundation
 
-final internal class AssetData: NSObject, NSCoding {
+final internal class AssetData: NSObject, NSSecureCoding {
+    
+    static var supportsSecureCoding: Bool {
+        return true
+    }
     
     var path: String?
     var options: [String : Any]?
