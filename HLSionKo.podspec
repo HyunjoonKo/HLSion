@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'HLSionKo'
-  s.version      = '0.5.1'
+  s.version      = '0.5.2'
   s.summary      = 'HLSion in Swift for iOS'
   s.description  = 'HTTP Live Streaming (HLS) download manager to offline playback.'
   s.homepage     = 'https://github.com/HyunjoonKo/HLSion'
