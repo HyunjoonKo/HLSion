@@ -15,7 +15,8 @@ internal struct AssetStore {
         if FileManager.default.fileExists(atPath: storeURL.path) {
             do {
                 let data = try Data(contentsOf: storeURL)
-                let object = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, AssetData.self, NSString.self], from: data)
+                let object = NSKeyedUnarchiver.unarchiveObject(with: data)
+                //let object = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, AssetData.self, NSString.self], from: data)
                 if let dictionary = object as? [String: AssetData] {
                     return dictionary
                 }
@@ -47,8 +48,9 @@ internal struct AssetStore {
     @discardableResult
     static func set(path: String, options: [String : Any]? = nil, data: Any? = nil, forName: String) -> Bool {
         shared[forName] = AssetData(path: path, options: options, data: data)
+        let archive = NSKeyedArchiver.archivedData(withRootObject: shared)
         do {
-            let archive = try NSKeyedArchiver.archivedData(withRootObject: shared, requiringSecureCoding: true)
+            //let archive = try NSKeyedArchiver.archivedData(withRootObject: shared, requiringSecureCoding: true)
             try archive.write(to: storeURL, options: .atomic)
             return true
         } catch {
@@ -60,8 +62,9 @@ internal struct AssetStore {
     @discardableResult
     static func remove(forName: String) -> Bool {
         guard let _ = shared.removeValue(forKey: forName) else { return false }
+        let data = NSKeyedArchiver.archivedData(withRootObject: shared)
         do {
-            let data = try NSKeyedArchiver.archivedData(withRootObject: shared, requiringSecureCoding: true)
+            //let data = try NSKeyedArchiver.archivedData(withRootObject: shared, requiringSecureCoding: true)
             try data.write(to: storeURL, options: .atomic)
             return true
         } catch {
