@@ -23,6 +23,11 @@ final internal class HLSSessionManager: NSObject, AVAssetDownloadDelegate {
     override private init() {
         super.init()
         
+        if let className = self.classForKeyedArchiver {
+            if let text = "\(className)".components(separatedBy: ".").first {
+                NSKeyedUnarchiver.setClass(AssetData.self, forClassName: text + ".AssetData")
+            }
+        }
         prepareForURLSession()
         restoreDownloadsMap()
     }
