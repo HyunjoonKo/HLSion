@@ -1,3 +1,10 @@
 .DS_Store
 *.xcuserstate
 xcuserdata
+.logs/
+.stats/
+.bundle/
+.prebuild_sandbox/
+build/
+DerivedData/
+*/Pods/

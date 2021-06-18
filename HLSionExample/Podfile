@@ -1,0 +1,8 @@
+platform :ios, '10.0'
+use_frameworks!
+inhibit_all_warnings!
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'HLSionExample' do
+   pod 'HLSionKo', :git => 'https://github.com/HyunjoonKo/HLSion.git', :branch => 'customized'
+end

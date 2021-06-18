@@ -1,0 +1,22 @@
+PODS:
+  - HLSionKo (0.5.3)
+
+DEPENDENCIES:
+  - HLSionKo (from `https://github.com/HyunjoonKo/HLSion.git`, branch `customized`)
+
+EXTERNAL SOURCES:
+  HLSionKo:
+    :branch: customized
+    :git: https://github.com/HyunjoonKo/HLSion.git
+
+CHECKOUT OPTIONS:
+  HLSionKo:
+    :commit: 6e762980623a9519247d8fefc3e21c49d24a03cb
+    :git: https://github.com/HyunjoonKo/HLSion.git
+
+SPEC CHECKSUMS:
+  HLSionKo: 158e083ec962d11db0163fc15b1e42688c3f17e2
+
+PODFILE CHECKSUM: ef68bbd5028a4c6aaa7f75010f3788c7b586c47b
+
+COCOAPODS: 1.10.1

@@ -13,26 +13,8 @@
 		0AD4BEA81DD76F8C0070BA6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AD4BEA71DD76F8C0070BA6B /* Assets.xcassets */; };
 		0AD4BEAB1DD76F8C0070BA6B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AD4BEA91DD76F8C0070BA6B /* LaunchScreen.storyboard */; };
 		0AD4BEB91DD772AE0070BA6B /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD4BEB81DD772AE0070BA6B /* Cell.swift */; };
-		0AD4BEBB1DD774280070BA6B /* HLSion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD4BEB71DD76FC10070BA6B /* HLSion.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		0AD4BEBC1DD774280070BA6B /* HLSion.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD4BEB71DD76FC10070BA6B /* HLSion.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		172B043158374C6CBDF889BB /* Pods_HLSionExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEB4ECBD234B64BC392AEA9D /* Pods_HLSionExample.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		0AD4BEB61DD76FC10070BA6B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0AD4BEB21DD76FC10070BA6B /* HLSion.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0A6783811DD62C6F001BF3A2;
-			remoteInfo = HLSion;
-		};
-		0AD4BEBD1DD774280070BA6B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0AD4BEB21DD76FC10070BA6B /* HLSion.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0A6783801DD62C6F001BF3A2;
-			remoteInfo = HLSion;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		0AD4BEBF1DD774290070BA6B /* Embed Frameworks */ = {
@@ -41,7 +23,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0AD4BEBC1DD774280070BA6B /* HLSion.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -56,8 +37,10 @@
 		0AD4BEA71DD76F8C0070BA6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0AD4BEAA1DD76F8C0070BA6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0AD4BEAC1DD76F8C0070BA6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0AD4BEB21DD76FC10070BA6B /* HLSion.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HLSion.xcodeproj; path = ../HLSion.xcodeproj; sourceTree = "<group>"; };
 		0AD4BEB81DD772AE0070BA6B /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
+		E5D7D42F37448AEF6BF8DB4D /* Pods-HLSionExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HLSionExample.debug.xcconfig"; path = "Target Support Files/Pods-HLSionExample/Pods-HLSionExample.debug.xcconfig"; sourceTree = "<group>"; };
+		FC5F416D4B96C6F7373BFFCE /* Pods-HLSionExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HLSionExample.release.xcconfig"; path = "Target Support Files/Pods-HLSionExample/Pods-HLSionExample.release.xcconfig"; sourceTree = "<group>"; };
+		FEB4ECBD234B64BC392AEA9D /* Pods_HLSionExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HLSionExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,19 +48,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AD4BEBB1DD774280070BA6B /* HLSion.framework in Frameworks */,
+				172B043158374C6CBDF889BB /* Pods_HLSionExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06A9530C7266C6C69F64F208 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FEB4ECBD234B64BC392AEA9D /* Pods_HLSionExample.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		0AD4BE941DD76F8C0070BA6B = {
 			isa = PBXGroup;
 			children = (
-				0AD4BEB21DD76FC10070BA6B /* HLSion.xcodeproj */,
 				0AD4BE9F1DD76F8C0070BA6B /* HLSionExample */,
 				0AD4BE9E1DD76F8C0070BA6B /* Products */,
+				C0F1514FBEF2B4A789C2CDA0 /* Pods */,
+				06A9530C7266C6C69F64F208 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,12 +95,13 @@
 			path = HLSionExample;
 			sourceTree = "<group>";
 		};
-		0AD4BEB31DD76FC10070BA6B /* Products */ = {
+		C0F1514FBEF2B4A789C2CDA0 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				0AD4BEB71DD76FC10070BA6B /* HLSion.framework */,
+				E5D7D42F37448AEF6BF8DB4D /* Pods-HLSionExample.debug.xcconfig */,
+				FC5F416D4B96C6F7373BFFCE /* Pods-HLSionExample.release.xcconfig */,
 			);
-			name = Products;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,15 +111,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0AD4BEAF1DD76F8C0070BA6B /* Build configuration list for PBXNativeTarget "HLSionExample" */;
 			buildPhases = (
+				9D5583F934241826FF51769D /* [CP] Check Pods Manifest.lock */,
 				0AD4BE991DD76F8C0070BA6B /* Sources */,
 				0AD4BE9A1DD76F8C0070BA6B /* Frameworks */,
 				0AD4BE9B1DD76F8C0070BA6B /* Resources */,
 				0AD4BEBF1DD774290070BA6B /* Embed Frameworks */,
+				3CB8BCCF9BC5318D825CD746 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				0AD4BEBE1DD774280070BA6B /* PBXTargetDependency */,
 			);
 			name = HLSionExample;
 			productName = HLSionExample;
@@ -162,28 +156,12 @@
 			mainGroup = 0AD4BE941DD76F8C0070BA6B;
 			productRefGroup = 0AD4BE9E1DD76F8C0070BA6B /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 0AD4BEB31DD76FC10070BA6B /* Products */;
-					ProjectRef = 0AD4BEB21DD76FC10070BA6B /* HLSion.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				0AD4BE9C1DD76F8C0070BA6B /* HLSionExample */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		0AD4BEB71DD76FC10070BA6B /* HLSion.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = HLSion.framework;
-			remoteRef = 0AD4BEB61DD76FC10070BA6B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0AD4BE9B1DD76F8C0070BA6B /* Resources */ = {
@@ -198,6 +176,49 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3CB8BCCF9BC5318D825CD746 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HLSionExample/Pods-HLSionExample-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/HLSionKo/HLSion.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HLSion.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HLSionExample/Pods-HLSionExample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9D5583F934241826FF51769D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HLSionExample-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0AD4BE991DD76F8C0070BA6B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -210,14 +231,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		0AD4BEBE1DD774280070BA6B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = HLSion;
-			targetProxy = 0AD4BEBD1DD774280070BA6B /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		0AD4BEA41DD76F8C0070BA6B /* Main.storyboard */ = {
@@ -356,6 +369,7 @@
 		};
 		0AD4BEB01DD76F8C0070BA6B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E5D7D42F37448AEF6BF8DB4D /* Pods-HLSionExample.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -377,6 +391,7 @@
 		};
 		0AD4BEB11DD76F8C0070BA6B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FC5F416D4B96C6F7373BFFCE /* Pods-HLSionExample.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
