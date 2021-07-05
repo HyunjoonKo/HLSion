@@ -12,8 +12,8 @@ internal struct AssetStore {
     
     // name : key, value : path
     private static var shared: [String: AssetData] = {
-        NSKeyedUnarchiver.setClass(AssetData.self, forClassName: "HLSionKo.AssetData")
-        NSKeyedArchiver.setClassName("HLSionKo.AssetData", for: AssetData.self)
+        NSKeyedUnarchiver.setClass(AssetData.self, forClassName: "HLSion.AssetData")
+        NSKeyedArchiver.setClassName("HLSion.AssetData", for: AssetData.self)
         if FileManager.default.fileExists(atPath: storeURL.path) {
             do {
                 let data = try Data(contentsOf: storeURL)
